@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          activity_type: string
+          created_at: string | null
+          description: string | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       call_feedback: {
         Row: {
           call_id: string
@@ -120,6 +147,7 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          member_since: string | null
           preferred_language: Database["public"]["Enums"]["language"]
           status: Database["public"]["Enums"]["user_status"]
           updated_at: string
@@ -129,6 +157,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          member_since?: string | null
           preferred_language: Database["public"]["Enums"]["language"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string
@@ -138,6 +167,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          member_since?: string | null
           preferred_language?: Database["public"]["Enums"]["language"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string
@@ -150,7 +180,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      log_activity: {
+        Args: {
+          p_user_id: string
+          p_activity_type: string
+          p_description?: string
+          p_metadata?: Json
+        }
+        Returns: undefined
+      }
+      update_user_status: {
+        Args: {
+          p_user_id: string
+          p_status: Database["public"]["Enums"]["user_status"]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       call_status: "waiting" | "connected" | "ended"
